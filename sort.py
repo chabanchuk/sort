@@ -64,19 +64,19 @@ def sort_files(path):
         for file in os.listdir(path):
             if os.path.isfile(os.path.join(path, file)):
                 ext = os.path.splitext(file)[1]
-                if ext == '.txt' or ext == '.doc' or ext == '.docx' or ext == '.xlsx' or ext == '.pptx' or ext == '.pdf':
+                if ext.lower() == '.txt' or ext.lower() == '.doc' or ext.lower() == '.docx' or ext.lower() == '.xlsx' or ext.lower() == '.pptx' or ext.lower() == '.pdf':
                     file_path = os.path.join(path, 'documents')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
-                elif ext == '.jpeg' or ext == '.png' or ext == '.jpg' or ext == '.svg':
+                elif ext.lower() == '.jpeg' or ext.lower() == '.png' or ext.lower() == '.jpg' or ext.lower() == '.svg' or ext.lower()  == '.bmp':
                     file_path = os.path.join(path, 'images')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
-                elif ext == '.avi' or ext == '.mp4' or ext == '.mov' or ext == '.mkv':
+                elif ext.lower() == '.avi' or ext.lower() == '.mp4' or ext.lower() == '.mov' or ext.lower() == '.mkv':
                     file_path = os.path.join(path, 'video')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
-                elif ext == '.mp3' or ext == '.wav' or ext == '.ogg' or ext == '.amr':
+                elif ext.lower() == '.mp3' or ext.lower() == '.wav' or ext.lower() == '.ogg' or ext.lower() == '.amr':
                     file_path = os.path.join(path, 'audio')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))        
-                elif ext == '.zip' or ext == '.tar' or ext == '.gz':
+                elif ext.lower() == '.zip' or ext.lower() == '.tar' or ext.lower() == '.gz':
                     file_path = os.path.join(path, 'archives')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
                     archive_path = os.path.join(file_path, os.path.splitext(file)[0])
@@ -118,3 +118,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    
