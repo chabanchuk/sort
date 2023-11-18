@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 import re
 import shutil
-import zipfile
 
 FORBIDDEN_DIRS = []
 
@@ -81,8 +80,12 @@ def sort_files(path):
                     file_path = os.path.join(path, 'archives')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
                     archive_path = os.path.join(file_path, os.path.splitext(file)[0])
-                    with zipfile.ZipFile(os.path.join(file_path, file), 'r') as zip_ref:
-                        zip_ref.extractall(archive_path)
+                    directory_path = archive_path + '_unpack'
+                    os.makedirs(directory_path, exist_ok=True)
+                    try:
+                         shutil.unpack_archive(archive_path, directory_path)
+                    except shutil.ReadError as err:
+                        print(f"Не вдалося розархівувати файл {archive_path}: {err}")                    
                 else:
                     file_path = os.path.join(path, 'dont_now_ext')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
@@ -94,15 +97,15 @@ def main():
         if len(sys.argv) != 2:
             print(f'Usage: {sys.argv[0]} Pyth - Перевірте правильність вводу даних')
             sys.exit(1)
-        elif Path(sys.argv[1]).is_dir():
-            list_dir = Path(sys.argv[1])
-        os.chdir(list_dir)
+        list_dir = Path(sys.argv[1])
+        if list_dir.is_dir():
+             os.chdir(list_dir)
         for category in categories:
             category_path = os.path.join(list_dir, category)
             os.makedirs(category_path, exist_ok=True)
             FORBIDDEN_DIRS.append(category_path)
     except UnboundLocalError:
-            print(f'Usage: {sys.argv[0]} Pyth - Перевірте правильність вводу даних')
+            print(f'Usage: {sys.argv[0]} Pyth ')
             sys.exit(1)
 
 
@@ -115,4 +118,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
