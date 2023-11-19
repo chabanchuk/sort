@@ -64,19 +64,19 @@ def sort_files(path):
         for file in os.listdir(path):
             if os.path.isfile(os.path.join(path, file)):
                 ext = os.path.splitext(file)[1]
-                if ext.lower() == '.txt' or ext.lower() == '.doc' or ext.lower() == '.docx' or ext.lower() == '.xlsx' or ext.lower() == '.pptx' or ext.lower() == '.pdf':
+                if ext.lower() in categories['documents']:
                     file_path = os.path.join(path, 'documents')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
-                elif ext.lower() == '.jpeg' or ext.lower() == '.png' or ext.lower() == '.jpg' or ext.lower() == '.svg' or ext.lower()  == '.bmp':
+                elif ext.lower() in categories['images']:
                     file_path = os.path.join(path, 'images')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
-                elif ext.lower() == '.avi' or ext.lower() == '.mp4' or ext.lower() == '.mov' or ext.lower() == '.mkv':
+                elif ext.lower() in categories['video']:
                     file_path = os.path.join(path, 'video')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
-                elif ext.lower() == '.mp3' or ext.lower() == '.wav' or ext.lower() == '.ogg' or ext.lower() == '.amr':
+                elif ext.lower() in categories['audio']:
                     file_path = os.path.join(path, 'audio')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))        
-                elif ext.lower() == '.zip' or ext.lower() == '.tar' or ext.lower() == '.gz':
+                elif ext.lower() in categories['archives']:
                     file_path = os.path.join(path, 'archives')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
                     archive_path = os.path.join(file_path, os.path.splitext(file)[0])
@@ -99,11 +99,10 @@ def main():
             sys.exit(1)
         list_dir = Path(sys.argv[1])
         if list_dir.is_dir():
-             os.chdir(list_dir)
-        for category in categories:
-            category_path = os.path.join(list_dir, category)
-            os.makedirs(category_path, exist_ok=True)
-            FORBIDDEN_DIRS.append(category_path)
+            for category in categories:
+                category_path = os.path.join(list_dir, category)
+                os.makedirs(category_path, exist_ok=True)
+                FORBIDDEN_DIRS.append(category_path)
     except UnboundLocalError:
             print(f'Usage: {sys.argv[0]} Pyth ')
             sys.exit(1)
