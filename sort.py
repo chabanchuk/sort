@@ -80,10 +80,9 @@ def sort_files(path):
                     file_path = os.path.join(path, 'archives')
                     shutil.move(os.path.join(path, file), os.path.join(file_path, file))
                     archive_path = os.path.join(file_path, os.path.splitext(file)[0])
-                    directory_path = archive_path + '_unpack'
-                    os.makedirs(directory_path, exist_ok=True)
+                    os.makedirs(archive_path, exist_ok=True)
                     try:
-                         shutil.unpack_archive(archive_path, directory_path)
+                         shutil.unpack_archive(os.path.join(file_path, file), archive_path)
                     except shutil.ReadError as err:
                         print(f"Не вдалося розархівувати файл {archive_path}: {err}")                    
                 else:
